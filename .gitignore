@@ -1,0 +1,13 @@
+/legacy-rust/target
+backend/.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+frontend/node_modules/
+frontend/dist/
+data/logs/
+data/config.json
+data/secret.key
+data/users.json
+data/conversations/
+data/users/

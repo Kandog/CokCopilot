@@ -1,0 +1,56 @@
+{
+  "name": "cokcopilot-desktop",
+  "productName": "CokCopilot",
+  "version": "3.1.0",
+  "description": "CokCopilot desktop app: connects to a CokCopilot server",
+  "author": "CokCopilot",
+  "license": "MIT",
+  "private": true,
+  "main": "dist/main.js",
+  "scripts": {
+    "build": "tsc -p .",
+    "start": "npm run build && electron .",
+    "dist": "npm run build && electron-builder --win portable zip --x64",
+    "dist:mac": "npm run build && electron-builder --mac zip",
+    "dist:linux": "npm run build && electron-builder --linux AppImage"
+  },
+  "build": {
+    "appId": "com.cokcopilot.desktop",
+    "productName": "CokCopilot",
+    "directories": {
+      "output": "release",
+      "buildResources": "build"
+    },
+    "files": [
+      "dist/**/*",
+      "static/**/*",
+      "package.json"
+    ],
+    "win": {
+      "icon": "../assets/icon.ico",
+      "target": [
+        "portable",
+        "zip"
+      ]
+    },
+    "portable": {
+      "artifactName": "CokCopilot-${version}-portable.exe"
+    },
+    "mac": {
+      "icon": "../assets/icon-1024.png",
+      "category": "public.app-category.productivity"
+    },
+    "linux": {
+      "icon": "../assets/icon-1024.png",
+      "category": "Office"
+    }
+  },
+  "devDependencies": {
+    "electron": "^33.2.1",
+    "electron-builder": "^25.1.8",
+    "typescript": "^5.6.3"
+  },
+  "allowScripts": {
+    "electron@33.2.1": true
+  }
+}

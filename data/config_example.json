@@ -1,0 +1,20 @@
+{
+  "base_url": "https://api.openai.com/v1",
+  "api_key": "",
+  "default_model": "",
+  "embedding_model": "text-embedding-3-small",
+  "system_prompt": "You are a helpful assistant.",
+  "temperature": 1.0,
+  "max_tokens": 4096,
+  "top_p": 0.7,
+  "dark_mode": false,
+  "theme": "system",
+  "rag_enabled": false,
+  "rag_min_score": 0.3,
+  "knowledge_folder": "",
+  "memory_enabled": true,
+  "disable_thinking": false,
+  "mcp_enabled": true,
+  "mcp_auto_approve": false,
+  "mcp_max_tool_rounds": 8
+}

@@ -1,0 +1,40 @@
+[project]
+name = "cokcopilot"
+version = "3.1.0"
+description = "Desktop AI chat for OpenAI-compatible APIs, with Knowledge Base, memory, skills and MCP tools"
+license = "MIT"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.115",
+    "uvicorn>=0.32",
+    "httpx>=0.27",
+    "mcp>=1.9",
+    "pypdf>=5.0",
+    "python-multipart>=0.0.12",
+    "watchfiles>=0.24",
+    "send2trash>=1.8",
+]
+
+[project.optional-dependencies]
+# Native desktop window instead of a browser tab.
+desktop = ["pywebview>=5.0"]
+
+[project.scripts]
+cokcopilot = "cokcopilot.__main__:main"
+
+[dependency-groups]
+dev = ["pytest>=8"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["cokcopilot"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 120

@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'" />
+  <title>CokCopilot — Connect</title>
+  <style>
+    :root {
+      --bg: #f8f6f2; --surface: #fff; --text: #1c1b1a; --muted: #6b6762; --border: rgba(0,0,0,.12);
+      --accent: #2f5ce8; --accent-soft: rgba(47,92,232,.12); --danger: #c4314b;
+      font-family: "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif; color-scheme: light;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root { --bg: #171615; --surface: #242322; --text: #f2f0ec; --muted: #aaa59e; --border: rgba(255,255,255,.14);
+        --accent: #7d9bff; --accent-soft: rgba(125,155,255,.16); --danger: #ff7a8f; color-scheme: dark; }
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; }
+    body {
+      display: grid; place-items: center; padding: 24px; color: var(--text);
+      background: radial-gradient(800px 500px at 85% -10%, rgba(150,190,255,.25), transparent 70%),
+                  radial-gradient(700px 500px at 10% 110%, rgba(255,196,150,.25), transparent 70%), var(--bg);
+    }
+    form {
+      width: min(440px, 100%); display: grid; gap: 14px; padding: 32px 28px; border-radius: 24px;
+      background: var(--surface); border: 1px solid var(--border); box-shadow: 0 10px 40px rgba(0,0,0,.12);
+    }
+    .logo { width: 52px; height: 52px; border-radius: 16px; justify-self: center; position: relative;
+      background: conic-gradient(from 210deg, #ff9a5a, #ffcf5c, #6fdc9a, #4f8cff, #a77bff, #ff9a5a); }
+    .logo::after { content: ""; position: absolute; inset: 13px; border-radius: 50%; background: var(--surface); }
+    h1 { margin: 0; font-size: 22px; font-weight: 600; text-align: center; }
+    p { margin: 0; color: var(--muted); font-size: 14px; text-align: center; line-height: 1.5; }
+    label { font-size: 13px; font-weight: 600; }
+    input { width: 100%; padding: 11px 14px; border-radius: 12px; border: 1px solid var(--border); font: inherit;
+      background: transparent; color: inherit; outline: none; }
+    input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+    button { padding: 11px; border-radius: 12px; border: 0; background: var(--accent); color: #fff; font: inherit;
+      font-weight: 600; cursor: pointer; }
+    button:disabled { opacity: .6; cursor: default; }
+    .error { color: var(--danger); font-size: 13px; white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <form id="f">
+    <div class="logo"></div>
+    <h1>Connect to CokCopilot</h1>
+    <p>Enter the address of your team's CokCopilot server. Your admin can give it to you.</p>
+    <label for="url">Server address</label>
+    <input id="url" placeholder="https://chat.example.com" autocomplete="url" autofocus />
+    <div class="error" id="err" role="alert"></div>
+    <button id="go" type="submit">Connect</button>
+  </form>
+  <script>
+    const params = new URLSearchParams(location.search);
+    const err = document.getElementById("err");
+    const input = document.getElementById("url");
+    const go = document.getElementById("go");
+    err.textContent = params.get("message") || "";
+    window.cokDesktop.getServer().then((u) => { if (u) input.value = u; });
+    document.getElementById("f").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (!input.value.trim()) return;
+      go.disabled = true; go.textContent = "Connecting…"; err.textContent = "";
+      const r = await window.cokDesktop.connect(input.value);
+      if (!r.ok) { err.textContent = r.error; go.disabled = false; go.textContent = "Connect"; }
+    });
+  </script>
+</body>
+</html>
